@@ -3,9 +3,12 @@
 #include <QDebug>
 
 IaClientBackendPlugin::IaClientBackendPlugin(QObject* parent)
-    : QObject(parent), IaClientBackendReplica(parent)
+    : IaBackendReplica(parent)
 {
     qDebug() << "IaClientBackendPlugin: Constructor called";
+    
+    // Connect replica signal to our re-emitted signal for QML binding
+    connect(this, &IaBackendReplica::searchResultsReady, this, &IaClientBackendPlugin::onSearchResultsReady);
 }
 
 IaClientBackendPlugin::~IaClientBackendPlugin()
@@ -14,16 +17,21 @@ IaClientBackendPlugin::~IaClientBackendPlugin()
 }
 
 void IaClientBackendPlugin::initLogos(LogosAPI* logosAPIInstance) {
-    if (logos) {
-        delete logos;
-        logos = nullptr;
-    }
     if (logosAPI) {
         delete logosAPI;
         logosAPI = nullptr;
+    }
+    if (logos) {
+        delete logos;
+        logos = nullptr;
     }
     logosAPI = logosAPIInstance;
     if (logosAPI) {
         logos = new LogosModules(logosAPI);
     }
+}
+
+void IaClientBackendPlugin::onSearchResultsReady(const QVariantList& results) {
+    // Re-emit for QML binding
+    emit searchResultsReady(results);
 }
