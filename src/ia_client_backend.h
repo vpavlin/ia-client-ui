@@ -3,15 +3,14 @@
 
 #include <QObject>
 #include <QString>
-#include "ia_client_backend_replica.h"
-#include "ia_client_backend_simple_source.h"
 #include "view_plugin_base.h"
 #include "logos_api.h"
+#include "ia_client_backend_replica.h"
 
 /**
- * @brief IA Client backend plugin — process-isolated C++ backend for QML UI
+ * @brief IA Client backend plugin — QML-accessible C++ backend for Internet Archive browsing
  */
-class IaClientBackendPlugin : public IaClientBackendSimpleSource,
+class IaClientBackendPlugin : public IaClientBackendReplica,
                                public IaClientBackendInterface,
                                public IaClientBackendViewPluginBase
 {

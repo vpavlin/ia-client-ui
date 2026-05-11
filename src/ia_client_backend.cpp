@@ -1,10 +1,9 @@
 #include "ia_client_backend.h"
 #include "logos_api.h"
-#include "logos_api_client.h"
 #include <QDebug>
 
 IaClientBackendPlugin::IaClientBackendPlugin(QObject* parent)
-    : QObject(parent)
+    : QObject(parent), IaClientBackendReplica(parent)
 {
     qDebug() << "IaClientBackendPlugin: Constructor called";
 }

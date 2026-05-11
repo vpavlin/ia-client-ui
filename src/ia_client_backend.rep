@@ -1,7 +1,6 @@
 class IaClientBackend
 {
-    PROP(QVariantList searchResults READWRITE)
     SIGNAL(searchResultsReady(QVariantList results))
-    SLOT(void search(string query, int rows))
-    SLOT(void bookmarkCollection(string collectionId, string title))
+    SLOT(QVariantList search(string query, int rows))
+    SLOT(QVariantMap getItemMetadata(string identifier))
 }
