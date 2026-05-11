@@ -1,0 +1,25 @@
+{
+  "name": "ia_client_ui",
+  "version": "0.1.0",
+  "type": "ui_qml",
+  "category": "network",
+  "description": "IA Client UI — QML frontend for Internet Archive collection browsing",
+  "main": "ia_client_backend",
+  "view": "qml/Main.qml",
+  "icon": "icons/ia.png",
+  "dependencies": ["logos_ia"],
+
+  "nix": {
+    "packages": {
+      "build": [],
+      "runtime": []
+    },
+    "external_libraries": [],
+    "cmake": {
+      "find_packages": [],
+      "extra_sources": [],
+      "extra_include_dirs": [],
+      "extra_link_libraries": []
+    }
+  }
+}
