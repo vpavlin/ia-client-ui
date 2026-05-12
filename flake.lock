@@ -1213,8 +1213,8 @@
         "logos-module-builder": "logos-module-builder"
       },
       "locked": {
-        "lastModified": 1778573926,
-        "narHash": "sha256-YLazSYx7RRmBiNucvuJChFKsfCDQc/Nz2tLCViDKzOE=",
+        "lastModified": 1778574809,
+        "narHash": "sha256-cMzxgtWLfrsgEkbPNiiVbo+BlFV8e/NM2RTTMFpqBD0=",
         "path": "/home/vpavlin/devel/logos-ia",
         "type": "path"
       },
