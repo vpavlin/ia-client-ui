@@ -15,7 +15,7 @@
       mbLib = inputs.logos-module-builder.lib;
       mbNixpkgs = inputs.logos-module-builder.inputs.nixpkgs;
       
-      # Bind builderRoot explicitly by importing mkLogosModule.nix directly
+      # Bind builderRoot explicitly (v2) by importing mkLogosModule.nix directly
       # This avoids the nested flake context issue where builderRoot isn't passed
       mkLogosModuleDirect = import (inputs.logos-module-builder + "/lib/mkLogosModule.nix") {
         nixpkgs = mbNixpkgs;
