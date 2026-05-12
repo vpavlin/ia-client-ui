@@ -4,7 +4,7 @@
   "type": "ui",
   "category": "network",
   "description": "IA Client UI — QML frontend for Internet Archive collection browsing",
-  "main": "ia_client_backend",
+  "main": "ia_client_ui_plugin",
   "view": "qml/Main.qml",
   "icon": "icons/ia.png",
   "dependencies": ["logos_ia"],
