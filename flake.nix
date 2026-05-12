@@ -3,13 +3,13 @@
 
   inputs = {
     logos-module-builder.url = "/home/vpavlin/devel/logos-module-builder-patched";
-    logos-ia.url = "/home/vpavlin/devel/logos-ia";
+    logos_ia.url = "/home/vpavlin/devel/logos-ia";
   };
 
-  outputs = inputs@{ logos-module-builder, logos-ia, ... }:
+  outputs = inputs@{ logos-module-builder, logos_ia, ... }:
     let
-      # Get the include directory from logos-ia's output
-      logosIaIncludeDir = "${logos-ia.packages.x86_64-linux.default}/include";
+      # Get the include directory from logos_ia's output
+      logosIaIncludeDir = "${logos_ia.packages.x86_64-linux.default}/include";
       
       # Get nixpkgs.lib for common.nix (needs zipAttrsWith etc.)
       mbLib = inputs.logos-module-builder.lib;
@@ -34,7 +34,7 @@
         src = ./.;
         configFile = ./metadata.json;
         flakeInputs = inputs;
-        extraNativeBuildInputs = [ logos-ia.packages.x86_64-linux.default ];
+        extraNativeBuildInputs = [ logos_ia.packages.x86_64-linux.default ];
         preConfigure = ''
           export LOGOS_IA_INCLUDE_DIR="${logosIaIncludeDir}"
         '';
