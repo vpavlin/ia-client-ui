@@ -40,5 +40,5 @@
         '';
       };
     in
-    iaUiModule;
+      iaUiModule;
 }
