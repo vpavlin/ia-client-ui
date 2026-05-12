@@ -3,12 +3,16 @@
 #include <QDebug>
 
 IaClientBackendPlugin::IaClientBackendPlugin(QObject* parent)
-    : IaBackendReplica(parent)
+    : IaBackendReplica()
 {
+    setParent(parent);
     qDebug() << "IaClientBackendPlugin: Constructor called";
     
-    // Connect replica signal to our re-emitted signal for QML binding
-    connect(this, &IaBackendReplica::searchResultsReady, this, &IaClientBackendPlugin::onSearchResultsReady);
+    // Connect replica signals to our slots
+    connect(this, &IaBackendReplica::searchResultsReady,
+            this, &IaClientBackendPlugin::onSearchResultsReady);
+    connect(this, &IaBackendReplica::itemMetadataReady,
+            this, &IaClientBackendPlugin::onItemMetadataReady);
 }
 
 IaClientBackendPlugin::~IaClientBackendPlugin()
@@ -32,6 +36,30 @@ void IaClientBackendPlugin::initLogos(LogosAPI* logosAPIInstance) {
 }
 
 void IaClientBackendPlugin::onSearchResultsReady(const QVariantList& results) {
-    // Re-emit for QML binding
-    emit searchResultsReady(results);
+    m_searchResults = results;
+    m_loading = false;
+    emit loadingChanged(false);
+    emit searchResultsChanged(results);
+    qDebug() << "IaClientBackendPlugin: Got" << results.size() << "results";
+}
+
+void IaClientBackendPlugin::doSearch(const QString& query, int rows) {
+    m_loading = true;
+    emit loadingChanged(true);
+    qDebug() << "IaClientBackendPlugin: Searching for" << query << "rows:" << rows;
+    // Call the replica's search slot which forwards to the backend
+    search(query.toStdString(), rows);
+}
+
+void IaClientBackendPlugin::getMetadata(const QString& identifier) {
+    qDebug() << "IaClientBackendPlugin: Getting metadata for" << identifier;
+    // Call the replica's getItemMetadata slot
+    getItemMetadata(identifier.toStdString());
+}
+
+void IaClientBackendPlugin::onItemMetadataReady(const QVariantMap& metadata) {
+    m_currentItemMetadata = metadata;
+    emit currentItemMetadataChanged(metadata);
+    qDebug() << "IaClientBackendPlugin: Got metadata for" 
+             << metadata.value("identifier", "unknown").toString();
 }

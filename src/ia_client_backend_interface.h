@@ -1,23 +1,23 @@
-#ifndef UI_EXAMPLE_INTERFACE_H
-#define UI_EXAMPLE_INTERFACE_H
+#ifndef IA_CLIENT_BACKEND_INTERFACE_H
+#define IA_CLIENT_BACKEND_INTERFACE_H
 
 #include <QObject>
 #include <QString>
 #include "interface.h"
 
 /**
- * @brief Interface for the UI Example module
+ * @brief Interface for the IA Client backend plugin
  *
- * UI modules extend PluginInterface and provide createWidget()/destroyWidget()
- * to supply the host application with a QWidget* for display.
+ * The IA Client backend inherits from IaBackendReplica (Qt Remote Objects)
+ * and provides searchResultsReady signal for QML binding.
  */
-class UiExampleInterface : public PluginInterface
+class IaClientBackendInterface : public PluginInterface
 {
 public:
-    virtual ~UiExampleInterface() = default;
+    virtual ~IaClientBackendInterface() = default;
 };
 
-#define UiExampleInterface_iid "org.logos.UiExampleInterface"
-Q_DECLARE_INTERFACE(UiExampleInterface, UiExampleInterface_iid)
+#define IaClientBackendInterface_iid "org.logos.IaClientBackend"
+Q_DECLARE_INTERFACE(IaClientBackendInterface, IaClientBackendInterface_iid)
 
-#endif // UI_EXAMPLE_INTERFACE_H
+#endif // IA_CLIENT_BACKEND_INTERFACE_H

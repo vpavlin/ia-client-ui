@@ -19,6 +19,7 @@ logos_module(
     SOURCES 
         src/ia_client_backend.h
         src/ia_client_backend.cpp
+        src/ia_client_backend_interface.h
 )
 
 # Add logos-ia include dir for IaBackendReplica header

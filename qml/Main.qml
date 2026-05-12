@@ -49,6 +49,15 @@ Item {
             }
         }
 
+        // Loading indicator
+        Label {
+            Layout.fillWidth: true
+            text: backend && backend.loading ? "Searching..." : ""
+            opacity: backend && backend.loading ? 1.0 : 0.0
+            font.pixelSize: 12
+            color: "#666"
+        }
+
         // Results list
         ListView {
             id: resultsView
@@ -56,7 +65,7 @@ Item {
             Layout.fillHeight: true
             clip: true
 
-            model: backend ? backend.searchResults : 0
+            model: backend && backend.searchResults ? backend.searchResults : []
 
             delegate: ItemDelegate {
                 width: resultsView.width
@@ -69,7 +78,7 @@ Item {
                     anchors.margins: 4
 
                     Label {
-                        text: "📄"
+                        text: modelData.title ? "📄" : "❓"
                         font.pixelSize: 16
                     }
 
@@ -78,24 +87,33 @@ Item {
                         spacing: 2
 
                         Label {
-                            text: modelData.title || modelData.identifier
+                            text: modelData.title || modelData.identifier || "Untitled"
                             font.bold: true
                             elide: Text.ElideMiddle
                             Layout.fillWidth: true
                         }
 
                         Label {
-                            text: modelData.collection ? modelData.collection.join(", ") : ""
+                            text: formatIdentifier(modelData.identifier)
                             font.pixelSize: 10
                             opacity: 0.6
                             elide: Text.ElideRight
                             Layout.fillWidth: true
                         }
+
+                        Label {
+                            text: modelData.description ? truncateText(modelData.description, 80) : ""
+                            font.pixelSize: 9
+                            opacity: 0.5
+                            elide: Text.ElideRight
+                            visible: modelData.description
+                            Layout.fillWidth: true
+                        }
                     }
 
                     Button {
-                        text: "Bookmark"
-                        onClicked: backend.bookmarkCollection(modelData.identifier, modelData.title)
+                        text: "View"
+                        onClicked: showDetails(modelData.identifier)
                     }
                 }
             }
@@ -110,6 +128,24 @@ Item {
         if (filter !== "all") {
             query = "mediatype:" + filter + " " + query
         }
-        backend.search(query, 20)
+        if (backend) {
+            backend.doSearch(query, 20)
+        }
+    }
+
+    function formatIdentifier(id) {
+        if (!id) return ""
+        // Truncate long identifiers for display
+        return id.length > 60 ? id.substring(0, 57) + "..." : id
+    }
+
+    function truncateText(text, maxLength) {
+        if (!text || text.length <= maxLength) return text
+        return text.substring(0, maxLength - 3) + "..."
+    }
+
+    function showDetails(identifier) {
+        console.log("Show details for:", identifier)
+        // TODO: Navigate to detail panel (T2.7)
     }
 }
